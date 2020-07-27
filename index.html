@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Style lines with a data-driven property</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    let data = {
+    'type': 'FeatureCollection',
+    'features': [{
+        'type': 'Feature',
+        'properties': {
+            'color': 'red'
+        },
+        'geometry': {
+            'type': 'Polygon',
+            'coordinates': [
+                [
+                    [
+                        115.813867,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932124
+                    ],
+                    [
+                        115.814005,
+                        -31.932124
+                    ],
+                    [
+                        115.814005,
+                        -31.932168
+                    ],
+                    [
+                        115.813962,
+                        -31.932168
+                    ],
+                    [
+                        115.813962,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932177
+                    ]
+                ]
+            ]
+        }
+    }, {
+        'type': 'Feature',
+        'properties': {
+            'color': 'blue'
+        },
+        'geometry': {
+            'type': 'Polygon',
+            'coordinates': [
+                [
+                    [
+                        115.813962,
+                        -31.932087
+                    ],
+                    [
+                        115.813894,
+                        -31.932087
+                    ],
+                    [
+                        115.813894,
+                        -31.932042
+                    ],
+                    [
+                        115.81391,
+                        -31.932042
+                    ],
+                    [
+                        115.81391,
+                        -31.931967
+                    ],
+                    [
+                        115.813984,
+                        -31.931967
+                    ],
+                    [
+                        115.813984,
+                        -31.932042
+                    ],
+                    [
+                        115.81401,
+                        -31.932042
+                    ],
+                    [
+                        115.81401,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932087
+                    ]
+                ]
+            ]
+        }
+    }, {
+        'type': 'Feature',
+        'properties': {
+            'color': 'green'
+        },
+        'geometry': {
+            'type': 'Polygon',
+            'coordinates': [
+                [
+                    [
+                        115.81391,
+                        -31.931967
+                    ],
+                    [
+                        115.81391,
+                        -31.931931
+                    ],
+                    [
+                        115.813849,
+                        -31.931931
+                    ],
+                    [
+                        115.813849,
+                        -31.9319
+                    ],
+                    [
+                        115.81386,
+                        -31.9319
+                    ],
+                    [
+                        115.81386,
+                        -31.931868
+                    ],
+                    [
+                        115.813984,
+                        -31.931868
+                    ],
+                    [
+                        115.813984,
+                        -31.931967
+                    ],
+                    [
+                        115.81391,
+                        -31.931967
+                    ]
+                ]
+            ]
+        }
+    }]
+};
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2FoaWxrYXNoeWFwNjQiLCJhIjoiY2tkNDFxYmtoMXQxbjJybXlleGxhejE4MSJ9.LGSnbgHFFcuBE8wXHxIMiA';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [115.813867,
+                        -31.932177],
+        zoom: 16
+    });
+
+// Add zoom and rotation controls to the map.
+var nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-right');
+var hoveredStateId = null;
+
+    map.on('load', function() {
+        map.addSource('lines', {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'color': '#F7455D' // red
+                            ,'title': 'Mapbox DC'
+                        },
+                        'geometry': {
+                            'type': 'Polygon',
+                            'coordinates': [
+                [
+                    [
+                        115.813867,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932124
+                    ],
+                    [
+                        115.814005,
+                        -31.932124
+                    ],
+                    [
+                        115.814005,
+                        -31.932168
+                    ],
+                    [
+                        115.813962,
+                        -31.932168
+                    ],
+                    [
+                        115.813962,
+                        -31.932177
+                    ],
+                    [
+                        115.813867,
+                        -31.932177
+                    ]
+                ]
+            ]
+                        }
+                    },
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'color': '#33C9EB' // blue
+                            ,'title': 'Mapbox AB'
+                        },
+                        'geometry': {
+                            'type': 'Polygon',
+                            'coordinates': [
+                [
+                    [
+                        115.813962,
+                        -31.932087
+                    ],
+                    [
+                        115.813894,
+                        -31.932087
+                    ],
+                    [
+                        115.813894,
+                        -31.932042
+                    ],
+                    [
+                        115.81391,
+                        -31.932042
+                    ],
+                    [
+                        115.81391,
+                        -31.931967
+                    ],
+                    [
+                        115.813984,
+                        -31.931967
+                    ],
+                    [
+                        115.813984,
+                        -31.932042
+                    ],
+                    [
+                        115.81401,
+                        -31.932042
+                    ],
+                    [
+                        115.81401,
+                        -31.932087
+                    ],
+                    [
+                        115.813962,
+                        -31.932087
+                    ]
+                ]
+            ]
+                        }
+                    }
+                ]
+            }
+        });
+        map.addLayer({
+            'id': 'lines',
+            'type': 'line',
+            'source': 'lines',
+            'paint': {
+                'line-width': 3,
+                // Use a get expression (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-get)
+                // to set the line-color to a feature property value.
+                'line-color': ['get', 'color'],
+                
+            }
+        });
+
+        map.addLayer({
+'id': 'lines',
+'type': 'fill',
+'source': 'lines',
+'layout': {},
+'paint': {
+'fill-color': '#627BC1',
+'fill-opacity': [
+'case',
+['boolean', ['feature-state', 'hover'], false],
+1,
+0.5
+]
+}
+});
+
+map.addLayer({
+    "id": "lines-label",
+    "type": "symbol",
+    "source": "lines",
+    "layout": {
+      "text-field": "{title}",
+      "text-font": [
+        "DIN Offc Pro Medium",
+        "Arial Unicode MS Bold"
+      ],
+      "text-size": 12
+    }
+  });
+
+
+    });
+</script>
+
+</body>
+</html>
