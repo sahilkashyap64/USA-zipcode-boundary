@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+        </title>
+        <meta content="initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js">
+        </script>
+    </head>
+</html>
+<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css" rel="stylesheet"/>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h2,
+h3 {
+    margin: 10px;
+    font-size: 1.2em;
+}
+
+h3 {
+    font-size: 1em;
+}
+
+p {
+    font-size: 0.85em;
+    margin: 10px;
+    text-align: left;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+#menu {
+/*    background: #fff;
+*/    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+/*    border-radius: 3px;
+*/    width: 300px;
+/*    border: 1px solid rgba(0, 0, 0, 0.4);
+*/    font-family: 'Open Sans', sans-serif;
+}
+
+#menu a {
+    font-size: 13px;
+    color: #404040;
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+#menu a:last-child {
+    border: none;
+}
+
+#menu a:hover {
+    background-color: #f8f8f8;
+    color: #404040;
+}
+
+#menu a.active {
+    background-color: #3887be;
+    color: #ffffff;
+}
+
+#menu a.active:hover {
+    background: #3074a4;
+}
+
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    margin-right: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    border-radius: 3px;
+}
+
+#features {
+    top: 50px;
+    height: 300px;
+    margin-top: 20px;
+    width: 250px;
+}
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,);
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto Condensed, Helvetica Neue, sans-serif;
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.vertical-align {
+  display: table-cell;
+  vertical-align: middle;
+/*  height: 100vh;
+*/}
+
+.button-link {
+  text-decoration: none;
+}
+
+.btns {
+  background-color: white;
+/*  background-image: linear-gradient(100deg, #ff5a64 0%, #faa04b 30%, #d2dc69 70%, #0ef49b 100%);
+*/  z-index: 0;
+  height: 50px;
+  float: none;
+  margin: 0 auto;
+  width: 300px;
+  max-width: 100%;
+  border-radius: 40px;
+  display: block;
+  box-shadow: 0 2px 4px -1px rgba(25, 25, 25, 0.2);
+}
+.btns input {
+  display: none;
+}
+.btns label {
+  display: table;
+  float: left;
+  padding: 0;
+  width: 33%;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+}
+.btns label:first-child {
+  border-left: none;
+  border-radius: 40px 0 0 40px;
+}
+.btns label:last-child {
+  border-radius: 0 40px 40px 0;
+}
+.btns .btn {
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  font-weight: 300;
+  color: black;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 30px 20px -20px rgba(255, 255, 255, 0.15);
+  transition: color 250ms cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 250ms cubic-bezier(0.895, 0.03, 0.685, 0.22);
+}
+.btns .btn:hover {
+  box-shadow: inset 0 30px 30px -20px rgba(50, 50, 50, 0.02);
+  transition: all 250ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.btns .btn:after {
+  content: '\2714';
+  margin-left: -10px;
+  display: inline-block;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  transition: margin 250ms cubic-bezier(0.6, -0.28, 0.735, 0.045) 100ms, -webkit-transform 250ms cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  transition: margin 250ms cubic-bezier(0.6, -0.28, 0.735, 0.045) 100ms, transform 250ms cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  transition: margin 250ms cubic-bezier(0.6, -0.28, 0.735, 0.045) 100ms, transform 250ms cubic-bezier(0.895, 0.03, 0.685, 0.22), -webkit-transform 250ms cubic-bezier(0.895, 0.03, 0.685, 0.22);
+}
+.btns .first {
+  border-radius: 40px 0 0 40px;
+}
+.btns .last {
+  border-radius: 0 40px 40px 0;
+}
+.btns input:checked + .btn {
+  color: #5f6982;
+  text-shadow: none;
+  background-image: linear-gradient(to top, rgba(25, 25, 25, 0) 65%, rgba(25, 25, 25, 0.08));
+  box-shadow: inset 0 10px 50px rgba(25, 25, 25, 0.08);
+  transition: color 500ms cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 150ms;
+}
+.btns input:checked + .btn:after {
+  margin-left: 12px;
+  -webkit-transform: scale(1.25);
+  transform: scale(1.25);
+  transition: margin 500ms, -webkit-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 250ms;
+  transition: transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 250ms, margin 500ms;
+  transition: transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 250ms, margin 500ms, -webkit-transform 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 250ms;
+}
+
+</style>
+<body>
+    <!-- -->
+    <nav id="menu">
+        <div class='vertical-align'>
+            <div class='btns'>
+                <label>
+                    <input checked='' class="layer_class" name='button-group' type='radio' value='states' onclick="updateLayer(this.value)">
+                        <span class='btn first'>States</span>
+                    </input>
+                </label>
+                <label>
+                    <input name='button-group' class="layer_class" type='radio' value='counties' onclick="updateLayer(this.value)">
+                        <span class='btn'>Counties</span>
+                    </input>
+                </label>
+                <label>
+                    <input name='button-group' class="layer_class" type='radio' value='Zip' onclick="updateLayer(this.value)">
+                        <span class='btn'>ZipCodes</span>
+                    </input>
+                </label>
+            </div>
+        </div>
+    </nav>
+    <div id="map">
+    </div>
+    <div class="map-overlay" id="features">
+        <h2>
+            Data
+        </h2>
+        <div id="pd">
+            <p>
+                Hover over a state/county/zipcode!
+            </p>
+        </div>
+    </div>
+    <script id="jsbin-javascript">
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2FoaWxrYXNoeWFwNjQiLCJhIjoiY2tkNDFxYmtoMXQxbjJybXlleGxhejE4MSJ9.LGSnbgHFFcuBE8wXHxIMiA';
+        if (mapboxgl.accessToken == '') {
+            alert('Add Mapbox Access Token');
+        }
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 5,
+            center: [-95.03734351262877, 29.537451890638886],
+        });
+        var zips_tiles = {
+            'ac-zips': {
+                'source-layer': 'ac-b0n2k5',
+                'url': 'darsh99137.67h8ttal',
+            },
+            'nopr-zips': {
+                'source-layer': 'nopr-aab0hu',
+                'url': 'darsh99137.4a95ht04',
+            },
+            'stuv-zips': {
+                'source-layer': 'stuv-bdvekc',
+                'url': 'darsh99137.4qk2dlxt',
+            },
+            'klm-zips': {
+                'source-layer': 'klm-1cyylf',
+                'url': 'darsh99137.c10a4dg9',
+            },
+            'dfghi-zips': {
+                'source-layer': 'dfghi-9jmprs',
+                'url': 'darsh99137.45692mm0',
+            },
+            'w-zips': {
+                'source-layer': 'w-6rljid',
+                'url': 'darsh99137.4c878s8r',
+            }
+        };
+        var zip_labels = [];
+        var label_layers = ['states', 'counties', 'Zip', 'zips-kml'];
+        var zoomThreshold = 5;
+
+        map.on('load', function () {
+            /////////////////////////////////////
+            // var expression = ["match", ["get", "ZCTA5CE10"], '90032', 'green'];
+            // expression.push("rgba(0,0,0,0)");
+            Object.keys(zips_tiles).map(function (key) {
+                map.addSource(key, {
+                    type: 'vector',
+                    url: 'mapbox://' + zips_tiles[key]['url']
+                });
+                // map.addLayer({
+                //     'id': key,
+                //     'type': 'fill',
+                //     'source': key,
+                //     'layout': {
+                //         'visibility': 'visible'
+                //     },
+                //     'minzoom': 8,
+                //     'paint': {
+                //         'fill-outline-color': 'white',
+                //         'fill-opacity': .65,
+                //         // 'fill-color': expression
+                //     },
+                //     'source-layer': zips_tiles[key]['source-layer']
+                // });
+                map.addLayer({
+                    'id': key + '-label',
+                    'type': 'symbol',
+                    'source': key,
+                    'minzoom': 5,
+                    'layout': {
+                        'visibility': 'none',
+                        'text-field': '{ZCTA5CE10}'
+                    },
+                    'source-layer': zips_tiles[key]['source-layer']
+                });
+                zip_labels.push(key + '-label');
+            });
+            // map.setFilter('ac-zips', ['match', ['get', 'ZCTA5CE10'],
+            //     ['90032'], true, false
+            // ]);
+
+            ////////////////////////////////////////////////////////////////
+            map.addSource('zips-kml', {
+                type: 'vector',
+                url: 'mapbox://darsh99137.4nf1q4ec'
+            });
+
+            map.addLayer({
+                'id': 'zips-kml',
+                'type': 'fill',
+                'source': 'zips-kml',
+                'minzoom': 5,
+                'layout': {
+                    'visibility': 'none'
+                },
+                'paint': {
+                    'fill-outline-color': 'white',
+                    'fill-opacity': .65,
+                    // 'fill-color': expression
+                },
+                'source-layer': 'Layer_0'
+            });
+
+            map.addSource('zips', {
+                type: 'vector',
+                url: 'mapbox://jn1532.2z2q31r2'
+            });
+
+            map.addLayer({
+
+                    'id': 'Zip',
+                    'type': 'fill',
+                    'source': 'zips',
+                    'layout': {
+                        'visibility': 'none'
+                    },
+                    'minzoom': 3,
+                    'maxzoom': 5,
+                    'paint': {
+                        'fill-outline-color': '#696969',
+                        'fill-color': {
+                            property: 'fill',
+                            type: 'identity'
+                            // type: 'categorical' , // this is essential to match 'fill'
+                            // stops: [
+                            // ['#fbb4ae', '#fbb4ae'],
+                            // ['#b3cde3', '#b3cde3'],
+                            // ['#ccebc5', '#ccebc5'],
+                            // ['#decbe4', '#decbe4'],
+                            // ['#fed9a6', '#fed9a6'] 
+                            // ] //'#fbb4ae','#b3cde3','#ccebc5','#decbe4','#fed9a6'                                       //red ,   blue,      green,   purple,   orange
+                        },
+                        'fill-opacity': .65
+                    },
+                    'source-layer': 'zip5_topo_color-2bf335'
+
+
+                },
+                'water' /// 'water'   helps the transparency
+            );
+
+            map.on('mousemove', function (e) {
+                var features = map.queryRenderedFeatures(e.point, {
+                    layers: label_layers
+                });
+                if (features.length > 0) {
+                    if (features[0].layer.id == 'states') {
+                        document.getElementById('pd').innerHTML = '<h3><strong>' + features[0].properties.NAME10 + '</strong></h3>';
+                    } else if (features[0].layer.id == 'counties') {
+                        document.getElementById('pd').innerHTML = '<h3><strong>' + features[0].properties.COUNTY + '</strong></h3>';
+                    } else if (features[0].layer.id == 'Zip') {
+                        document.getElementById('pd').innerHTML = '<h3><strong>' + features[0].properties.ZIP5 + '</strong></h3>';
+                    } else if (features[0].layer.id == 'zips-kml') {
+                        document.getElementById('pd').innerHTML = '<h3><strong>' + features[0].properties.Name.replace(/^\D+/g, '') + '</strong></h3>';
+                    } else {
+                        document.getElementById('pd').innerHTML = '<h3><strong>' + features[0].properties.ZCTA5CE10 + '</strong></h3>';
+                    }
+
+                } else {
+                    document.getElementById('pd').innerHTML = '<p>Hover over a state!</p>';
+                }
+            });
+            ////////////////////////////////////////////////////////////////
+
+            map.addSource('states', {
+                'type': 'vector',
+                'url': 'mapbox://darsh99137.0ecy31wq'
+            });
+
+            map.addSource('counties', {
+                'type': 'vector',
+                'url': 'mapbox://mapbox.82pkq93d'
+            });
+
+            var state_expression = ["match", ["get", 'STATEFP10']];
+            var state_colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+
+            for (i = 1; i <= 56; i++) {
+                rand = state_colors[Math.floor(Math.random() * state_colors.length)];
+                state_expression.push(i < 10 ? '0' + i : i.toString(), rand);
+            }
+            state_expression.push("rgba(0,0,0,0)");
+
+            map.addLayer({
+                'id': 'states',
+                'source': 'states',
+                'source-layer': 'state-5rc59x',
+                'type': 'fill',
+                'layout': {
+                    'visibility': 'visible'
+                },
+                'paint': {
+                    'fill-outline-color': 'white',
+                    'fill-color': state_expression,
+                    'fill-opacity': 0.75
+                }
+            }, 'waterway-label');
+
+            map.addLayer({
+                'id': 'counties',
+                'source': 'counties',
+                'source-layer': 'original',
+                'type': 'fill',
+                'layout': {
+                    'visibility': 'none'
+                },
+                'paint': {
+                    'fill-outline-color': 'white',
+                    'fill-color': [
+                        'interpolate', ['linear'],
+                        ['get', 'population'],
+                        0, '#F2F12D',
+                        100, '#EED322',
+                        1000, '#E6B71E',
+                        5000, '#DA9C20',
+                        10000, '#CA8323',
+                        50000, '#B86B25',
+                        100000, '#A25626',
+                        500000, '#8B4225',
+                        1000000, '#723122'
+                    ],
+                    'fill-opacity': 0.75
+                }
+            }, 'waterway-label');
+        });
+
+        function updateLayer(clickedLayer) {
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            for (var i = 0; i < document.getElementsByClassName('layer_class').length; ++i) {
+                var layer = document.getElementsByClassName('layer_class')[i];
+                if (layer.value !== clickedLayer) {
+                    map.setLayoutProperty(layer.value, 'visibility', 'none');
+                    if (layer.value == 'Zip') {
+                        map.setLayoutProperty('zips-kml', 'visibility', 'none');
+                        zip_labels.map(function (key) {
+                            map.setLayoutProperty(key, 'visibility', 'none');
+                        });
+                    }
+                }
+            }
+
+            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            if (clickedLayer == 'Zip') {
+                map.setLayoutProperty('zips-kml', 'visibility', 'visible');
+                zip_labels.map(function (key) {
+                    map.setLayoutProperty(key, 'visibility', 'visible');
+                });
+            }
+        }
+
+    </script>
+</body>
