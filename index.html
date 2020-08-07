@@ -31,8 +31,23 @@
         background: #ee8a65;
             cursor: pointer;
         }
+        #info {
+display: block;
+position: relative;
+margin: 0px auto;
+width: 20%;
+/* padding: 10px; */
+border: none;
+border-radius: 3px;
+font-size: 12px;
+text-align: center;
+color: #222;
+background: #fff;
+}
+
         </style>
 <div id="map"></div>
+<pre id="info"></pre>
 <div id='fitBounds' onclick='fly()'>Fly to next location</div>
 <script>
     let data = {
@@ -3808,6 +3823,15 @@ map.addLayer({
 
 
     });
+    map.on('click', function(e) {
+document.getElementById('info').innerHTML =
+// e.point is the x, y coordinates of the mousemove event relative
+// to the top-left corner of the map
+JSON.stringify(e.point) +
+'<br />' +
+// e.lngLat is the longitude, latitude geographical position of the event
+JSON.stringify(e.lngLat.wrap());
+});
     
     // This variable will track your current coordinate array's index.
 var idx = 0;
