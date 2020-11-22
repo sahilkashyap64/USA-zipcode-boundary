@@ -51,6 +51,8 @@ example: [Map I made](https://sahilkashyap64.github.io/USA-zipcode-boundary/)
 example 2 [with states,counties,zipcode](https://sahilkashyap64.github.io/USA-zipcode-boundary/index2) (credits to this map : [Darssh](https://github.com/Darssh))
 he used api ,uploaded the data in mapbox and then fetched it
 
+example 3 [Using turf js to check if coordinates fall in geofence](https://sahilkashyap64.github.io/USA-zipcode-boundary/mapbox+turf2.html)
+
 you'll find code here :https://github.com/sahilkashyap64/USA-zipcode-boundary
 
 If there are more ways(opensource) to do this kindly share them
