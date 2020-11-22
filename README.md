@@ -14,7 +14,8 @@ run this command
 ```
 ogr2ogr -f "MySQL" MYSQL:"spatialdata,host=localhost,user=root" -nln "map" -a_srs "EPSG:4683" cb_2018_us_zcta510_500k.shp -overwrite -addfields -fieldTypeToString All -lco ENGINE=MyISAM
 ```
-ogr2ogr is a tool
+*ogr2ogr is a tool*
+
 i uploaded the file on github [USAspatialdata.zip](https://github.com/sahilkashyap64/USA-zipcode-boundary/blob/master/USAspatialdata.zip)
 
 In your "spatialdata db" there will be 2 table named map & geometry_columns .
