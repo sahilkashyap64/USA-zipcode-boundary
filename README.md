@@ -7,8 +7,10 @@ How to get USA zipcode boundaries
 
 #### if you want to keep them in mysql
 In your mysql create a db of name :spatialdata
-run this command
+
 *EPSG:4683 this is epsg is for philiphines i should have used USA epsg that is EPSG:2163. Doesn't matter cuz it still worked*
+
+run this command
 ```
 ogr2ogr -f "MySQL" MYSQL:"spatialdata,host=localhost,user=root" -nln "map" -a_srs "EPSG:4683" cb_2018_us_zcta510_500k.shp -overwrite -addfields -fieldTypeToString All -lco ENGINE=MyISAM
 ```
