@@ -1,5 +1,9 @@
 # USA-zipcode-boundary
-[![Geofence boundry on mapbox Screen Shot][https://github.com/sahilkashyap64/USA-zipcode-boundary/blob/master/pic/geofenceboundry.png]](https://sahilkashyap64.github.io/USA-zipcode-boundary/mapbox+turf2.html)
+
+![Geofence boundry on mapbox Screen Shot](/pic/geofenceboundry.png)
+
+[Link](https://sahilkashyap64.github.io/USA-zipcode-boundary/mapbox+turf2.html)
+
 How to get USA zipcode boundaries
 [Link to article](https://dev.to/sahilkashyap64/how-to-get-usa-zipcode-boundaries-and-show-them-on-map-mapbox-1gm1)
 
